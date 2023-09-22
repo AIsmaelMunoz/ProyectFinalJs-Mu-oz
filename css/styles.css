@@ -1,0 +1,19 @@
+h1{
+    text-align: center;
+    gap: 1rem;
+    font-size: 3.5rem;
+}
+h2{
+    text-align: center;
+}
+.btns{
+    padding: 1rem;
+    text-align: center;
+}
+table{
+    text-align: center;
+}
+h4{
+    text-align: center;
+    gap: 2rem;
+}
