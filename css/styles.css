@@ -17,3 +17,12 @@ h4{
     text-align: center;
     gap: 2rem;
 }
+a{
+    color: inherit;
+    text-decoration: none;
+}
+.bt{
+    text-align: end;
+    gap: 1rem;
+    padding-right: 5rem;
+}

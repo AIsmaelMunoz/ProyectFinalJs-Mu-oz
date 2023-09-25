@@ -1,12 +1,30 @@
-let carrito = []
-
-const tableBody = document.getElementById('t-body')
+let carrito = JSON.parse(localStorage.getItem('agregadoCarrito')) || []
 
 let artCards = document.getElementById("cards")
 artCards.classList.add('container')
 artCards.classList.add('mx-auto')
 artCards.classList.add('gap-3')
 
+const tableBody = document.getElementById('t-body')
+
+const btnFinish = document.getElementById('finish')
+const btnClear = document.getElementById('clear')
+
+
+function rendTable() {
+    for (const prod of carrito) {
+        tableBody.innerHTML += `
+         <tr>
+             <td>${prod.id}</td>
+             <td>${prod.marca}</td>
+             <td>${prod.precio}</td>
+         </tr>
+        `;
+    }
+}
+if (carrito.length != 0) {
+    rendTable()
+}
 
 function stockProd(listaStock) {
     artCards.innerHTML = ''
@@ -23,11 +41,11 @@ function stockProd(listaStock) {
     </div>
     `;
     }
-    //evento
+
     let botones = document.getElementsByClassName('comprar')
     for (const boton of botones) {
         boton.addEventListener('click', () => {
-            const alCarrito = listaStock.find((produc)=>produc.id == boton.id)
+            const alCarrito = listaStock.find((produc) => produc.id == boton.id)
             console.log(alCarrito)
             itemCarrito(alCarrito)
         })
@@ -35,7 +53,8 @@ function stockProd(listaStock) {
 }
 stockProd(productos)
 
-function itemCarrito(produc){
+
+function itemCarrito(produc) {
     carrito.push(produc)
     console.table(carrito)
 
@@ -46,9 +65,11 @@ function itemCarrito(produc){
         <td>${produc.precio}</td>
     </tr>
     `;
-    const carritoTotal = carrito.reduce((acumulador, product)=>acumulador + product.precio, 0)
+    const carritoTotal = carrito.reduce((acumulador, product) => acumulador + product.precio, 0)
     console.log(carritoTotal)
-    document.getElementById('total').innerText='Total: $ '+carritoTotal ;
+    document.getElementById('total').innerText = 'Total: $ ' + carritoTotal;
+
+    localStorage.setItem('agregadoCarrito', JSON.stringify(carrito))
 }
 
 
@@ -56,33 +77,32 @@ function itemCarrito(produc){
 let btnAdidas = document.getElementById('btn-adidas')
 btnAdidas.addEventListener('click', clickAdi)
 
+let btnNike = document.getElementById('btn-nike')
+btnNike.addEventListener('click', clickNik)
+
+let btnPuma = document.getElementById('btn-puma')
+btnPuma.addEventListener('click', clickPum)
+
+let btnRebook = document.getElementById('btn-rebook')
+btnRebook.addEventListener('click', clickReb)
+
+
+
 function clickAdi() {
     clickAdi = productos.filter((prods) => prods.marca == "Adidas")
     console.log(clickAdi)
     stockProd(clickAdi)
 }
-
-let btnNike = document.getElementById('btn-nike')
-btnNike.addEventListener('click', clickNik)
-
 function clickNik() {
     clickNik = productos.filter((prods) => prods.marca == "Nike")
     console.log(clickNik)
     stockProd(clickNik)
 }
-
-let btnPuma = document.getElementById('btn-puma')
-btnPuma.addEventListener('click', clickPum)
-
 function clickPum() {
     clickPum = productos.filter((prods) => prods.marca == "Puma")
     console.log(clickPum)
     stockProd(clickPum)
 }
-
-let btnRebook = document.getElementById('btn-rebook')
-btnRebook.addEventListener('click', clickReb)
-
 function clickReb() {
     clickReb = productos.filter((prods) => prods.marca == "Rebook")
     console.log(clickReb)
@@ -90,4 +110,16 @@ function clickReb() {
 }
 
 
-
+btnFinish.onclick=()=>{
+    alert('Gracias por tu compra.\nPronto reciviras tu pedido.\n✅')
+    carrito=[]
+   tableBody.innerHTML='' 
+   document.getElementById('total').innerText = 'Total: $ ';
+   localStorage.removeItem('agregadoCarrito')
+}
+btnClear.onclick=()=>{
+   carrito=[]
+   tableBody.innerHTML='' 
+   document.getElementById('total').innerText = 'Total: $ ';
+   localStorage.removeItem('agregadoCarrito')
+}
